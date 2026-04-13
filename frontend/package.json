@@ -20,7 +20,7 @@
     "@connectrpc/connect-web": "^2.1.1",
     "@mantine/carousel": "^9.0.0",
     "@mantine/charts": "^9.0.0",
-    "@mantine/code-highlight": "^9.0.0",
+    "@mantine/code-highlight": "^9.0.1",
     "@mantine/core": "^9.0.0",
     "@mantine/dates": "^9.0.0",
     "@mantine/dropzone": "^9.0.0",
