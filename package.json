@@ -33,7 +33,7 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
     "lefthook": "^2.1.4",
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
