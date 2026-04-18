@@ -10,6 +10,6 @@
     "drizzle-orm": "1.0.0-beta.9-e89174b"
   },
   "devDependencies": {
-    "drizzle-kit": "1.0.0-beta.9-e89174b"
+    "drizzle-kit": "1.0.0-beta.22-41a7d21"
   }
 }
