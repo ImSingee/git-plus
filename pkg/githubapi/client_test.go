@@ -2,6 +2,7 @@ package githubapi
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -20,6 +21,14 @@ func testClient(server *httptest.Server) *Client {
 	client := New(server.URL, server.Client())
 	client.Sleep = func(ctx context.Context, _ time.Duration) error { return ctx.Err() }
 	return client
+}
+
+func cleanupCredentialGate(t *testing.T, baseURL, token string) {
+	t.Helper()
+	key := fmt.Sprintf("%x", sha256.Sum256([]byte(baseURL+"\x00"+token)))
+	// A later httptest server can reuse this port, even within one -count run.
+	// All requests must finish before cleanup; only this test's credential is removed.
+	t.Cleanup(func() { credentialLocks.Delete(key) })
 }
 
 func TestPagesFollowEveryLinkAndPreserveRawObjects(t *testing.T) {
@@ -177,6 +186,7 @@ func TestRetryPolicyAndRateLimitDelays(t *testing.T) {
 			}))
 			defer server.Close()
 			client := testClient(server)
+			cleanupCredentialGate(t, client.BaseURL, "token")
 			client.Now = func() time.Time { return now }
 			var sleeps []time.Duration
 			client.Sleep = func(ctx context.Context, delay time.Duration) error { sleeps = append(sleeps, delay); return ctx.Err() }
@@ -250,6 +260,7 @@ func TestErrorsNeverExposeTokensBodiesOrURLs(t *testing.T) {
 				fmt.Fprintf(w, `{"message":%q}`, secret)
 			}))
 			defer server.Close()
+			cleanupCredentialGate(t, server.URL, secret)
 			_, err := testClient(server).Object(context.Background(), secret, "/object?secret="+secret)
 			if err == nil || strings.Contains(err.Error(), secret) || strings.Contains(err.Error(), server.URL) {
 				t.Fatalf("unsafe API error: %v", err)
@@ -294,6 +305,7 @@ func TestHTTPDateRetryAfter(t *testing.T) {
 	}))
 	defer server.Close()
 	client := testClient(server)
+	cleanupCredentialGate(t, client.BaseURL, "token")
 	client.Now = func() time.Time { return now }
 	_, err := client.Object(context.Background(), "token", "/object")
 	var apiError *Error
@@ -312,6 +324,7 @@ func TestVeryLargeRetryAfterDoesNotOverflow(t *testing.T) {
 	}))
 	defer server.Close()
 	client := testClient(server)
+	cleanupCredentialGate(t, client.BaseURL, "token")
 	client.Now = func() time.Time { return now }
 	client.Sleep = func(context.Context, time.Duration) error {
 		t.Error("must not retry a huge Retry-After delay")
@@ -358,6 +371,8 @@ func TestLongRateLimitStopsOtherClientsForSameCredential(t *testing.T) {
 	defer server.Close()
 	now := time.Date(2026, 10, 15, 12, 0, 0, 0, time.UTC)
 	first := New(server.URL, server.Client())
+	cleanupCredentialGate(t, first.BaseURL, "limited")
+	cleanupCredentialGate(t, first.BaseURL, "other")
 	first.Now = func() time.Time { return now }
 	if _, err := first.Object(context.Background(), "limited", "/repo"); err == nil {
 		t.Fatal("expected rate limit")

@@ -190,7 +190,9 @@ describe('offline issue browser', () => {
     expect(screen.getByText('Label: backup')).toBeVisible();
     expect(screen.getByText(/Original Markdown shown as text/)).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: 'Original JSON' }));
-    expect(await screen.findByText(/Preserved API records/)).toBeVisible();
+    await waitFor(() =>
+      expect(screen.getByText(/Preserved API records/)).toBeVisible(),
+    );
     expect(issueClient.getIssue).toHaveBeenCalledWith(
       { repoId: 42n, issueId: '123', snapshot: '' },
       expect.anything(),
