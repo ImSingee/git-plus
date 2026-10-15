@@ -59,6 +59,13 @@ function renderTab() {
   );
 }
 
+async function waitForLoadedIndex() {
+  // The first status response changes latestCommit and remounts the issue list.
+  // Wait for that response before finding the current, attached row button.
+  await screen.findByText('Ready');
+  await screen.findByRole('button', { name: /Preserve offline discussions/ });
+}
+
 beforeEach(() => {
   vi.mocked(issueClient.getStatus).mockResolvedValue(
     create(GetStatusResponseSchema, {
@@ -141,19 +148,26 @@ describe('offline issue browser', () => {
     );
     renderTab();
     expect(await screen.findByText('No issues backed up yet')).toBeVisible();
-    expect(screen.getByText('Issue backups are turned off')).toBeVisible();
+    expect(
+      await screen.findByText('Issue backups are turned off'),
+    ).toBeVisible();
     expect(screen.getByRole('button', { name: 'Sync issues' })).toBeDisabled();
   });
 
   it('shows list failures with retry instead of claiming the archive is empty', async () => {
-    vi.mocked(issueClient.listIssues).mockRejectedValueOnce(
+    vi.mocked(issueClient.listIssues).mockRejectedValue(
       new Error('Archive temporarily unavailable'),
     );
     renderTab();
+    await screen.findByText('Ready');
     expect(
       await screen.findByText('Could not load archived issues'),
     ).toBeVisible();
+    expect(screen.getByText('Archive temporarily unavailable')).toBeVisible();
     expect(screen.queryByText('No issues backed up yet')).toBeNull();
+    vi.mocked(issueClient.listIssues).mockResolvedValue(
+      create(ListIssuesResponseSchema, { issues: [issue], totalCount: 1 }),
+    );
     fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
     expect(
       await screen.findByRole('button', {
@@ -164,8 +178,9 @@ describe('offline issue browser', () => {
 
   it('opens the saved body, comments, timeline, and original JSON', async () => {
     renderTab();
+    await waitForLoadedIndex();
     fireEvent.click(
-      await screen.findByRole('button', {
+      screen.getByRole('button', {
         name: /Preserve offline discussions/,
       }),
     );
@@ -196,8 +211,9 @@ describe('offline issue browser', () => {
       }),
     );
     const { container } = renderTab();
+    await waitForLoadedIndex();
     fireEvent.click(
-      await screen.findByRole('button', {
+      screen.getByRole('button', {
         name: /Preserve offline discussions/,
       }),
     );
@@ -215,8 +231,9 @@ describe('offline issue browser', () => {
       new Error('Issue not present in this snapshot'),
     );
     renderTab();
+    await waitForLoadedIndex();
     fireEvent.click(
-      await screen.findByRole('button', {
+      screen.getByRole('button', {
         name: /Preserve offline discussions/,
       }),
     );
@@ -242,7 +259,7 @@ describe('offline issue browser', () => {
       }),
     );
     renderTab();
-    await screen.findByRole('button', { name: /Preserve offline discussions/ });
+    await waitForLoadedIndex();
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     await waitFor(() =>
       expect(issueClient.listIssues).toHaveBeenLastCalledWith(
@@ -263,7 +280,7 @@ describe('offline issue browser', () => {
 
   it('queues incremental and full sync and exports the selected snapshot', async () => {
     renderTab();
-    await screen.findByRole('button', { name: /Preserve offline discussions/ });
+    await waitForLoadedIndex();
     fireEvent.click(screen.getByRole('button', { name: 'Sync issues' }));
     await waitFor(() =>
       expect(issueClient.enqueueSync).toHaveBeenCalledWith({
@@ -284,7 +301,9 @@ describe('offline issue browser', () => {
       }),
     );
     fireEvent.click(
-      screen.getByLabelText('Snapshot for issue details and export'),
+      screen.getByRole('combobox', {
+        name: 'Snapshot for issue details and export',
+      }),
     );
     fireEvent.click(await screen.findByRole('option', { name: /abcdef12/ }));
     expect(

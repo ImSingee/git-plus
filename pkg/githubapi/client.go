@@ -58,6 +58,12 @@ type Client struct {
 	cacheBytes int
 }
 
+type credentialGate struct {
+	gate         chan struct{}
+	limitedUntil time.Time
+	status       int
+}
+
 var credentialLocks sync.Map
 
 func New(baseURL string, client *http.Client) *Client {
@@ -133,14 +139,21 @@ func (c *Client) get(ctx context.Context, token, path string) ([]byte, string, e
 		return nil, "", err
 	}
 	key := fmt.Sprintf("%x", sha256.Sum256([]byte(c.BaseURL+"\x00"+token)))
-	value, _ := credentialLocks.LoadOrStore(key, make(chan struct{}, 1))
-	gate := value.(chan struct{})
+	value, _ := credentialLocks.LoadOrStore(key, &credentialGate{gate: make(chan struct{}, 1)})
+	credential := value.(*credentialGate)
+	gate := credential.gate
 	select {
 	case gate <- struct{}{}:
 	case <-ctx.Done():
 		return nil, "", ctx.Err()
 	}
 	defer func() { <-gate }()
+	// A long reset must also stop later queued repositories using this credential.
+	// Keep this state across Client instances; never hammer GitHub until reset.
+	if credential.limitedUntil.After(c.Now()) {
+		return nil, "", &Error{Status: credential.status, RetryAt: credential.limitedUntil}
+	}
+	credential.limitedUntil = time.Time{}
 	cacheKey := key + "|" + u.String()
 	c.mu.Lock()
 	prev := c.cache[cacheKey]
@@ -189,9 +202,11 @@ func (c *Client) get(ctx context.Context, token, path string) ([]byte, string, e
 			return nil, "", fmt.Errorf("GitHub API response exceeds size limit")
 		}
 		if resp.StatusCode == http.StatusNotModified && prev.body != nil {
+			credential.limitedUntil = time.Time{}
 			return append([]byte(nil), prev.body...), prev.next, nil
 		}
 		if resp.StatusCode >= 200 && resp.StatusCode < 300 {
+			credential.limitedUntil = time.Time{}
 			next, err := nextLink(resp.Header.Values("Link"))
 			if err != nil {
 				return nil, "", err
@@ -243,6 +258,8 @@ func (c *Client) get(ctx context.Context, token, path string) ([]byte, string, e
 				delay = time.Second
 			}
 			apiErr.RetryAt = c.Now().Add(delay)
+			credential.limitedUntil = apiErr.RetryAt
+			credential.status = apiErr.Status
 		}
 		if (!limited && resp.StatusCode < 500) || attempt == 2 || delay > 30*time.Second {
 			return nil, "", apiErr

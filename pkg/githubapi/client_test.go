@@ -343,3 +343,44 @@ func TestRelativeNextLinkUsesCurrentPageURL(t *testing.T) {
 		t.Fatalf("relative Link lost current page path: items=%s err=%v", items, err)
 	}
 }
+
+func TestLongRateLimitStopsOtherClientsForSameCredential(t *testing.T) {
+	var requests atomic.Int32
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests.Add(1)
+		if r.Header.Get("Authorization") == "Bearer limited" {
+			w.Header().Set("Retry-After", "120")
+			w.WriteHeader(http.StatusTooManyRequests)
+			return
+		}
+		_, _ = w.Write([]byte(`{"id":1}`))
+	}))
+	defer server.Close()
+	now := time.Date(2026, 10, 15, 12, 0, 0, 0, time.UTC)
+	first := New(server.URL, server.Client())
+	first.Now = func() time.Time { return now }
+	if _, err := first.Object(context.Background(), "limited", "/repo"); err == nil {
+		t.Fatal("expected rate limit")
+	}
+	second := New(server.URL, server.Client())
+	second.Now = first.Now
+	if _, err := second.Object(context.Background(), "limited", "/another-repo"); err == nil {
+		t.Fatal("expected shared rate limit")
+	}
+	if requests.Load() != 1 {
+		t.Fatalf("requested during known reset: %d requests", requests.Load())
+	}
+	if _, err := second.Object(context.Background(), "other", "/repo"); err != nil {
+		t.Fatal(err)
+	}
+	if requests.Load() != 2 {
+		t.Fatalf("unrelated credential was blocked: %d", requests.Load())
+	}
+	now = now.Add(121 * time.Second)
+	if _, err := second.Object(context.Background(), "limited", "/repo"); err == nil {
+		t.Fatal("expected new server rate response")
+	}
+	if requests.Load() != 3 {
+		t.Fatalf("did not retry after reset: %d", requests.Load())
+	}
+}
