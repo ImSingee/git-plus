@@ -51,6 +51,7 @@ func NewRootCommand(version string, frontendHandlerFactory server.FrontendHandle
 	cmd.AddCommand(newDBCommand(&dataDir))
 	cmd.AddCommand(newConfigCommand())
 	cmd.AddCommand(newCronCommand())
+	cmd.AddCommand(newIssuesCommand(&dataDir))
 
 	return cmd
 }

@@ -64,6 +64,7 @@ function SourcesPage() {
         includeDefaults: boolean;
         includeStarred: boolean;
         includeWatching: boolean;
+        issuesEnabled: boolean;
       };
     }) => configClient.createSource(input),
     onSuccess: () => {
@@ -86,6 +87,7 @@ function SourcesPage() {
         includeDefaults: boolean;
         includeStarred: boolean;
         includeWatching: boolean;
+        issuesEnabled: boolean;
       };
     }) => configClient.updateSource(input),
     onSuccess: () => {

@@ -24,6 +24,7 @@ sources:
     include_defaults: true
     include_starred: false
     include_watching: false
+    issues_enabled: false
 concurrency: 5
 max_retry_times: 2
 cron: '0 * * * *'
@@ -38,18 +39,19 @@ cron: '0 * * * *'
 
 Each source supports the following fields:
 
-| Field                | Type     | Required | Notes                              |
-| -------------------- | -------- | -------- | ---------------------------------- |
-| `id`                 | string   | yes      | System-generated stable identifier |
-| `name`               | string   | no       | Optional display name / remark     |
-| `platform`           | string   | yes      | v1 only supports `github`          |
-| `username`           | string   | yes      | Git provider username              |
-| `token`              | string   | yes      | Must use `$encrypted$1$...` format |
-| `only_include_repos` | string[] | no       | Optional allowlist                 |
-| `exclude_repos`      | string[] | no       | Optional blocklist                 |
-| `include_defaults`   | bool     | no       | Default `true`                     |
-| `include_starred`    | bool     | no       | Default `false`                    |
-| `include_watching`   | bool     | no       | Default `false`                    |
+| Field                | Type     | Required | Notes                                                   |
+| -------------------- | -------- | -------- | ------------------------------------------------------- |
+| `id`                 | string   | yes      | System-generated stable identifier                      |
+| `name`               | string   | no       | Optional display name / remark                          |
+| `platform`           | string   | yes      | v1 only supports `github`                               |
+| `username`           | string   | yes      | Git provider username                                   |
+| `token`              | string   | yes      | Must use `$encrypted$1$...` format                      |
+| `only_include_repos` | string[] | no       | Optional allowlist                                      |
+| `exclude_repos`      | string[] | no       | Optional blocklist                                      |
+| `include_defaults`   | bool     | no       | Default `true`                                          |
+| `include_starred`    | bool     | no       | Default `false`                                         |
+| `include_watching`   | bool     | no       | Default `false`                                         |
+| `issues_enabled`     | bool     | no       | Default `false`; back up Issues for active repositories |
 
 Meaning of the include fields:
 
@@ -207,3 +209,5 @@ The `git-plus` server command also requires `ENCRYPTION_PASSPHRASE` to be presen
 - The config file is optional in v1.
 - The app currently only defines and validates this config. It does not yet use the config to drive business behavior.
 - Advanced YAML features are not part of the supported contract. Keep the file to plain mappings, sequences, and scalar values.
+
+Issues backups reuse source sync and cron; see the [Issues backup guide](../../docs/issues-backup.md) for scope, permissions, storage, and recovery.

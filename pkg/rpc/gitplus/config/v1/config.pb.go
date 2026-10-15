@@ -277,6 +277,7 @@ type Source struct {
 	IncludeStarred   *bool                  `protobuf:"varint,8,opt,name=include_starred,json=includeStarred" json:"include_starred,omitempty"`
 	IncludeWatching  *bool                  `protobuf:"varint,9,opt,name=include_watching,json=includeWatching" json:"include_watching,omitempty"`
 	Name             *string                `protobuf:"bytes,10,opt,name=name" json:"name,omitempty"`
+	IssuesEnabled    *bool                  `protobuf:"varint,11,opt,name=issues_enabled,json=issuesEnabled" json:"issues_enabled,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -379,6 +380,13 @@ func (x *Source) GetName() string {
 		return *x.Name
 	}
 	return ""
+}
+
+func (x *Source) GetIssuesEnabled() bool {
+	if x != nil && x.IssuesEnabled != nil {
+		return *x.IssuesEnabled
+	}
+	return false
 }
 
 type ConfigSnapshot struct {
@@ -504,6 +512,7 @@ type CreateSourceInput struct {
 	IncludeStarred   *bool                  `protobuf:"varint,8,opt,name=include_starred,json=includeStarred" json:"include_starred,omitempty"`
 	IncludeWatching  *bool                  `protobuf:"varint,9,opt,name=include_watching,json=includeWatching" json:"include_watching,omitempty"`
 	Name             *string                `protobuf:"bytes,10,opt,name=name" json:"name,omitempty"`
+	IssuesEnabled    *bool                  `protobuf:"varint,11,opt,name=issues_enabled,json=issuesEnabled" json:"issues_enabled,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -601,6 +610,13 @@ func (x *CreateSourceInput) GetName() string {
 	return ""
 }
 
+func (x *CreateSourceInput) GetIssuesEnabled() bool {
+	if x != nil && x.IssuesEnabled != nil {
+		return *x.IssuesEnabled
+	}
+	return false
+}
+
 type UpdateSourcePatch struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Platform         *Platform              `protobuf:"varint,2,opt,name=platform,enum=gitplus.config.v1.Platform" json:"platform,omitempty"`
@@ -611,6 +627,7 @@ type UpdateSourcePatch struct {
 	IncludeStarred   *bool                  `protobuf:"varint,7,opt,name=include_starred,json=includeStarred" json:"include_starred,omitempty"`
 	IncludeWatching  *bool                  `protobuf:"varint,8,opt,name=include_watching,json=includeWatching" json:"include_watching,omitempty"`
 	Name             *string                `protobuf:"bytes,9,opt,name=name" json:"name,omitempty"`
+	IssuesEnabled    *bool                  `protobuf:"varint,10,opt,name=issues_enabled,json=issuesEnabled" json:"issues_enabled,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -699,6 +716,13 @@ func (x *UpdateSourcePatch) GetName() string {
 		return *x.Name
 	}
 	return ""
+}
+
+func (x *UpdateSourcePatch) GetIssuesEnabled() bool {
+	if x != nil && x.IssuesEnabled != nil {
+		return *x.IssuesEnabled
+	}
+	return false
 }
 
 type CheckConfigRequest struct {
@@ -1545,7 +1569,7 @@ const file_gitplus_config_v1_config_proto_rawDesc = "" +
 	"\fIssueSummary\x12\x14\n" +
 	"\x05error\x18\x01 \x01(\x05R\x05error\x12\x18\n" +
 	"\awarning\x18\x02 \x01(\x05R\awarning\x12\x12\n" +
-	"\x04info\x18\x03 \x01(\x05R\x04info\"\xbf\x03\n" +
+	"\x04info\x18\x03 \x01(\x05R\x04info\"\xe6\x03\n" +
 	"\x06Source\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\x12C\n" +
 	"\bplatform\x18\x02 \x01(\x0e2\x1b.gitplus.config.v1.PlatformB\n" +
@@ -1558,14 +1582,15 @@ const file_gitplus_config_v1_config_proto_rawDesc = "" +
 	"\x0finclude_starred\x18\b \x01(\bR\x0eincludeStarred\x12)\n" +
 	"\x10include_watching\x18\t \x01(\bR\x0fincludeWatching\x12\x12\n" +
 	"\x04name\x18\n" +
-	" \x01(\tR\x04name\"\xb5\x01\n" +
+	" \x01(\tR\x04name\x12%\n" +
+	"\x0eissues_enabled\x18\v \x01(\bR\rissuesEnabled\"\xb5\x01\n" +
 	"\x0eConfigSnapshot\x12)\n" +
 	"\vconcurrency\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\vconcurrency\x123\n" +
 	"\asources\x18\x02 \x03(\v2\x19.gitplus.config.v1.SourceR\asources\x12/\n" +
 	"\x0fmax_retry_times\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\rmaxRetryTimes\x12\x12\n" +
 	"\x04cron\x18\x04 \x01(\tR\x04cron\"9\n" +
 	"\x0fStringListValue\x12&\n" +
-	"\x06values\x18\x01 \x03(\tB\x0e\xbaH\v\x92\x01\b\x18\x01\"\x04r\x02\x10\x01R\x06values\"\xbb\x03\n" +
+	"\x06values\x18\x01 \x03(\tB\x0e\xbaH\v\x92\x01\b\x18\x01\"\x04r\x02\x10\x01R\x06values\"\xe2\x03\n" +
 	"\x11CreateSourceInput\x12C\n" +
 	"\bplatform\x18\x02 \x01(\x0e2\x1b.gitplus.config.v1.PlatformB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\bplatform\x12#\n" +
@@ -1577,7 +1602,8 @@ const file_gitplus_config_v1_config_proto_rawDesc = "" +
 	"\x0finclude_starred\x18\b \x01(\bR\x0eincludeStarred\x12)\n" +
 	"\x10include_watching\x18\t \x01(\bR\x0fincludeWatching\x12\x12\n" +
 	"\x04name\x18\n" +
-	" \x01(\tR\x04nameJ\x04\b\x01\x10\x02\"\xb1\x03\n" +
+	" \x01(\tR\x04name\x12%\n" +
+	"\x0eissues_enabled\x18\v \x01(\bR\rissuesEnabledJ\x04\b\x01\x10\x02\"\xd8\x03\n" +
 	"\x11UpdateSourcePatch\x12C\n" +
 	"\bplatform\x18\x02 \x01(\x0e2\x1b.gitplus.config.v1.PlatformB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\bplatform\x12#\n" +
@@ -1587,7 +1613,9 @@ const file_gitplus_config_v1_config_proto_rawDesc = "" +
 	"\x10include_defaults\x18\x06 \x01(\bR\x0fincludeDefaults\x12'\n" +
 	"\x0finclude_starred\x18\a \x01(\bR\x0eincludeStarred\x12)\n" +
 	"\x10include_watching\x18\b \x01(\bR\x0fincludeWatching\x12\x12\n" +
-	"\x04name\x18\t \x01(\tR\x04nameJ\x04\b\x01\x10\x02\"\x14\n" +
+	"\x04name\x18\t \x01(\tR\x04name\x12%\n" +
+	"\x0eissues_enabled\x18\n" +
+	" \x01(\bR\rissuesEnabledJ\x04\b\x01\x10\x02\"\x14\n" +
 	"\x12CheckConfigRequest\"\x8c\x01\n" +
 	"\x13CheckConfigResponse\x12:\n" +
 	"\x06issues\x18\x01 \x03(\v2\".gitplus.config.v1.ValidationIssueR\x06issues\x129\n" +

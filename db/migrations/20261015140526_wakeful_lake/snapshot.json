@@ -1,0 +1,1550 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "acf49c45-fa89-43ac-87f1-ce19edd23257",
+  "prevIds": [
+    "88e1a580-c9ae-4641-85b3-451377620604"
+  ],
+  "ddl": [
+    {
+      "name": "app_meta",
+      "entityType": "tables"
+    },
+    {
+      "name": "issue_sync_state",
+      "entityType": "tables"
+    },
+    {
+      "name": "issues_current",
+      "entityType": "tables"
+    },
+    {
+      "name": "repo_ref_changes",
+      "entityType": "tables"
+    },
+    {
+      "name": "repo_refs_current",
+      "entityType": "tables"
+    },
+    {
+      "name": "repos",
+      "entityType": "tables"
+    },
+    {
+      "name": "task_run_logs",
+      "entityType": "tables"
+    },
+    {
+      "name": "task_runs",
+      "entityType": "tables"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "key",
+      "entityType": "columns",
+      "table": "app_meta"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "value",
+      "entityType": "columns",
+      "table": "app_meta"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "repo_id",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "'idle'",
+      "generated": null,
+      "name": "status",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "''",
+      "generated": null,
+      "name": "latest_commit",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "''",
+      "generated": null,
+      "name": "issues_since",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "''",
+      "generated": null,
+      "name": "comments_since",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "''",
+      "generated": null,
+      "name": "last_successful_at",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "''",
+      "generated": null,
+      "name": "last_full_reconcile_at",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "''",
+      "generated": null,
+      "name": "last_error",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "0",
+      "generated": null,
+      "name": "issue_count",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "0",
+      "generated": null,
+      "name": "comment_count",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "table": "issue_sync_state"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "repo_id",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "issue_id",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "number",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "title",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "state",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "author_login",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "availability",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "'[]'",
+      "generated": null,
+      "name": "labels_json",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "'[]'",
+      "generated": null,
+      "name": "assignees_json",
+      "entityType": "columns",
+      "table": "issues_current"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "repo_id",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "task_run_id",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "ref_name",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "ref_kind",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "action",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "old_hash",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "new_hash",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "new_commit_authored_at",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "new_commit_committed_at",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "new_commit_author_name",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "new_commit_author_email",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "new_commit_message",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "archive_ref_name",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "table": "repo_ref_changes"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "repo_id",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "ref_name",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "ref_kind",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "current_hash",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "status",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "archive_ref_name",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "first_seen_at",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "last_seen_at",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "last_hash_updated_at",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "current_commit_authored_at",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "current_commit_committed_at",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "current_commit_author_name",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "current_commit_author_email",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "current_commit_message",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "table": "repo_refs_current"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "source_id",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "platform",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "ref_id",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "'active'",
+      "generated": null,
+      "name": "status",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "full_name",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "owner",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "description",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "html_url",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "clone_url",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "ssh_url",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "default_branch",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "visibility",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "0",
+      "generated": null,
+      "name": "is_private",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "0",
+      "generated": null,
+      "name": "is_fork",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "0",
+      "generated": null,
+      "name": "is_archived",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "'{}'",
+      "generated": null,
+      "name": "origin",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "meta",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "archive_repo_size_bytes",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "last_seen_at",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "disabled_at",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "table": "repos"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "task_run_logs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "task_id",
+      "entityType": "columns",
+      "table": "task_run_logs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "event_type",
+      "entityType": "columns",
+      "table": "task_run_logs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "summary",
+      "entityType": "columns",
+      "table": "task_run_logs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "meta_json",
+      "entityType": "columns",
+      "table": "task_run_logs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "error_message",
+      "entityType": "columns",
+      "table": "task_run_logs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "table": "task_run_logs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "task_id",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "parent_task_id",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "job_id",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "job_type",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "args_json",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "status",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "started_at",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "finished_at",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "error_message",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "last_progress_summary",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "last_progress_meta_json",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "table": "task_runs"
+    },
+    {
+      "columns": [
+        "repo_id"
+      ],
+      "tableTo": "repos",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_issue_sync_state_repo_id_repos_id_fk",
+      "entityType": "fks",
+      "table": "issue_sync_state"
+    },
+    {
+      "columns": [
+        "repo_id"
+      ],
+      "tableTo": "repos",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_issues_current_repo_id_repos_id_fk",
+      "entityType": "fks",
+      "table": "issues_current"
+    },
+    {
+      "columns": [
+        "repo_id"
+      ],
+      "tableTo": "repos",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_repo_ref_changes_repo_id_repos_id_fk",
+      "entityType": "fks",
+      "table": "repo_ref_changes"
+    },
+    {
+      "columns": [
+        "task_run_id"
+      ],
+      "tableTo": "task_runs",
+      "columnsTo": [
+        "task_id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_repo_ref_changes_task_run_id_task_runs_task_id_fk",
+      "entityType": "fks",
+      "table": "repo_ref_changes"
+    },
+    {
+      "columns": [
+        "repo_id"
+      ],
+      "tableTo": "repos",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_repo_refs_current_repo_id_repos_id_fk",
+      "entityType": "fks",
+      "table": "repo_refs_current"
+    },
+    {
+      "columns": [
+        "task_id"
+      ],
+      "tableTo": "task_runs",
+      "columnsTo": [
+        "task_id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_task_run_logs_task_id_task_runs_task_id_fk",
+      "entityType": "fks",
+      "table": "task_run_logs"
+    },
+    {
+      "columns": [
+        "key"
+      ],
+      "nameExplicit": false,
+      "name": "app_meta_pk",
+      "table": "app_meta",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "repo_id"
+      ],
+      "nameExplicit": false,
+      "name": "issue_sync_state_pk",
+      "table": "issue_sync_state",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "repo_ref_changes_pk",
+      "table": "repo_ref_changes",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "repo_refs_current_pk",
+      "table": "repo_refs_current",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "repos_pk",
+      "table": "repos",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "task_run_logs_pk",
+      "table": "task_run_logs",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "task_id"
+      ],
+      "nameExplicit": false,
+      "name": "task_runs_pk",
+      "table": "task_runs",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "issue_id",
+          "isExpression": false
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "origin": "manual",
+      "name": "issues_current_repo_issue_unique",
+      "entityType": "indexes",
+      "table": "issues_current"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "number",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "issues_current_repo_number_idx",
+      "entityType": "indexes",
+      "table": "issues_current"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "state",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "issues_current_repo_state_idx",
+      "entityType": "indexes",
+      "table": "issues_current"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "task_run_id",
+          "isExpression": false
+        },
+        {
+          "value": "ref_name",
+          "isExpression": false
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "origin": "manual",
+      "name": "repo_ref_changes_repo_run_ref_unique",
+      "entityType": "indexes",
+      "table": "repo_ref_changes"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "created_at",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "repo_ref_changes_repo_created_at_idx",
+      "entityType": "indexes",
+      "table": "repo_ref_changes"
+    },
+    {
+      "columns": [
+        {
+          "value": "task_run_id",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "repo_ref_changes_task_run_id_idx",
+      "entityType": "indexes",
+      "table": "repo_ref_changes"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "ref_name",
+          "isExpression": false
+        },
+        {
+          "value": "created_at",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "repo_ref_changes_repo_ref_created_at_idx",
+      "entityType": "indexes",
+      "table": "repo_ref_changes"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "ref_name",
+          "isExpression": false
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "origin": "manual",
+      "name": "repo_refs_current_repo_ref_unique",
+      "entityType": "indexes",
+      "table": "repo_refs_current"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "status",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "repo_refs_current_repo_status_idx",
+      "entityType": "indexes",
+      "table": "repo_refs_current"
+    },
+    {
+      "columns": [
+        {
+          "value": "repo_id",
+          "isExpression": false
+        },
+        {
+          "value": "ref_kind",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "repo_refs_current_repo_kind_idx",
+      "entityType": "indexes",
+      "table": "repo_refs_current"
+    },
+    {
+      "columns": [
+        {
+          "value": "source_id",
+          "isExpression": false
+        },
+        {
+          "value": "ref_id",
+          "isExpression": false
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "origin": "manual",
+      "name": "repos_source_ref_unique",
+      "entityType": "indexes",
+      "table": "repos"
+    },
+    {
+      "columns": [
+        {
+          "value": "source_id",
+          "isExpression": false
+        },
+        {
+          "value": "status",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "repos_source_status_idx",
+      "entityType": "indexes",
+      "table": "repos"
+    },
+    {
+      "columns": [
+        {
+          "value": "source_id",
+          "isExpression": false
+        },
+        {
+          "value": "full_name",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "repos_source_full_name_idx",
+      "entityType": "indexes",
+      "table": "repos"
+    },
+    {
+      "columns": [
+        {
+          "value": "task_id",
+          "isExpression": false
+        },
+        {
+          "value": "created_at",
+          "isExpression": false
+        },
+        {
+          "value": "id",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "task_run_logs_task_id_created_at_idx",
+      "entityType": "indexes",
+      "table": "task_run_logs"
+    },
+    {
+      "columns": [
+        {
+          "value": "started_at",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "task_runs_started_at_idx",
+      "entityType": "indexes",
+      "table": "task_runs"
+    },
+    {
+      "columns": [
+        {
+          "value": "job_type",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "task_runs_job_type_idx",
+      "entityType": "indexes",
+      "table": "task_runs"
+    },
+    {
+      "columns": [
+        {
+          "value": "parent_task_id",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "name": "task_runs_parent_task_id_idx",
+      "entityType": "indexes",
+      "table": "task_runs"
+    },
+    {
+      "value": "\"ref_kind\" IN ('head', 'tag')",
+      "name": "repo_ref_changes_kind_check",
+      "entityType": "checks",
+      "table": "repo_ref_changes"
+    },
+    {
+      "value": "\"action\" IN ('create', 'update', 'delete')",
+      "name": "repo_ref_changes_action_check",
+      "entityType": "checks",
+      "table": "repo_ref_changes"
+    },
+    {
+      "value": "\"ref_kind\" IN ('head', 'tag')",
+      "name": "repo_refs_current_kind_check",
+      "entityType": "checks",
+      "table": "repo_refs_current"
+    },
+    {
+      "value": "\"status\" IN ('active', 'deleted')",
+      "name": "repo_refs_current_status_check",
+      "entityType": "checks",
+      "table": "repo_refs_current"
+    },
+    {
+      "value": "\"status\" IN ('active', 'auto_excluded')",
+      "name": "repos_status_check",
+      "entityType": "checks",
+      "table": "repos"
+    },
+    {
+      "value": "json_valid(\"origin\")",
+      "name": "repos_origin_json_check",
+      "entityType": "checks",
+      "table": "repos"
+    },
+    {
+      "value": "json_valid(\"meta\")",
+      "name": "repos_meta_json_check",
+      "entityType": "checks",
+      "table": "repos"
+    }
+  ],
+  "renames": []
+}

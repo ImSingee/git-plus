@@ -200,3 +200,46 @@ export const taskRunLogs = sqliteTable(
     ),
   ],
 );
+
+// The Git archive is authoritative; these rows are rebuildable browser indexes.
+export const issueSyncState = sqliteTable('issue_sync_state', {
+  repoId: integer('repo_id')
+    .primaryKey()
+    .references(() => repos.id, { onDelete: 'cascade' }),
+  status: text('status').notNull().default('idle'),
+  latestCommit: text('latest_commit').notNull().default(''),
+  issuesSince: text('issues_since').notNull().default(''),
+  commentsSince: text('comments_since').notNull().default(''),
+  lastSuccessfulAt: text('last_successful_at').notNull().default(''),
+  lastFullReconcileAt: text('last_full_reconcile_at').notNull().default(''),
+  lastError: text('last_error').notNull().default(''),
+  issueCount: integer('issue_count').notNull().default(0),
+  commentCount: integer('comment_count').notNull().default(0),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export const issuesCurrent = sqliteTable(
+  'issues_current',
+  {
+    repoId: integer('repo_id')
+      .notNull()
+      .references(() => repos.id, { onDelete: 'cascade' }),
+    issueId: text('issue_id').notNull(),
+    number: integer('number').notNull(),
+    title: text('title').notNull(),
+    state: text('state').notNull(),
+    authorLogin: text('author_login').notNull(),
+    updatedAt: text('updated_at').notNull(),
+    availability: text('availability').notNull(),
+    labelsJson: text('labels_json').notNull().default('[]'),
+    assigneesJson: text('assignees_json').notNull().default('[]'),
+  },
+  (table) => [
+    uniqueIndex('issues_current_repo_issue_unique').on(
+      table.repoId,
+      table.issueId,
+    ),
+    index('issues_current_repo_number_idx').on(table.repoId, table.number),
+    index('issues_current_repo_state_idx').on(table.repoId, table.state),
+  ],
+);

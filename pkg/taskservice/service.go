@@ -20,6 +20,7 @@ import (
 	appdb "github.com/ImSingee/git-plus/db"
 	dbsqlc "github.com/ImSingee/git-plus/db/sqlc"
 	appconfig "github.com/ImSingee/git-plus/pkg/config"
+	"github.com/ImSingee/git-plus/pkg/issuetask"
 	taskv1 "github.com/ImSingee/git-plus/pkg/rpc/gitplus/task/v1"
 	"github.com/ImSingee/git-plus/pkg/rpc/gitplus/task/v1/taskv1connect"
 	"github.com/ImSingee/git-plus/pkg/syncsource"
@@ -445,7 +446,21 @@ func (s *serviceServer) sourceSyncRunner(sourceID string) func(*task.ExecutionCo
 			return fmt.Errorf("source sync executor is required")
 		}
 
-		return s.sourceSyncExecutor.Sync(context.Background(), request, ctx)
+		syncErr := s.sourceSyncExecutor.Sync(context.Background(), request, ctx)
+		if !request.Source.IssuesEnabled || s.db == nil {
+			return syncErr
+		}
+		repos, err := dbsqlc.New(s.db).ListActiveReposForSource(context.Background(), sourceID)
+		if err != nil {
+			return errors.Join(syncErr, err)
+		}
+		runner := issuetask.New(s.dataDir, s.db, s.manager)
+		for _, repo := range repos {
+			if _, _, err := runner.Enqueue(context.Background(), repo.ID, false, ctx.TaskID()); err != nil {
+				syncErr = errors.Join(syncErr, err)
+			}
+		}
+		return syncErr
 	}
 }
 

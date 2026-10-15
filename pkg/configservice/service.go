@@ -347,6 +347,7 @@ func toProtoSource(source appconfig.SourceConfig) *configv1.Source {
 		IncludeDefaults:  boolPtr(source.IncludeDefaults),
 		IncludeStarred:   boolPtr(source.IncludeStarred),
 		IncludeWatching:  boolPtr(source.IncludeWatching),
+		IssuesEnabled:    boolPtr(source.IssuesEnabled),
 		Name:             stringPtr(appconfig.EffectiveSourceName(source)),
 	}
 }
@@ -410,6 +411,7 @@ func createSourceFromProto(input *configv1.CreateSourceInput) (appconfig.SourceC
 		IncludeDefaults:  boolValueOrDefault(input.IncludeDefaults, appconfig.DefaultIncludeDefaults),
 		IncludeStarred:   boolValueOrDefault(input.IncludeStarred, false),
 		IncludeWatching:  boolValueOrDefault(input.IncludeWatching, false),
+		IssuesEnabled:    boolValueOrDefault(input.IssuesEnabled, false),
 	}, nil
 }
 
@@ -461,6 +463,10 @@ func applySourcePatch(input *configv1.UpdateSourcePatch, existingSource appconfi
 
 	if input.IncludeStarred != nil {
 		updatedSource.IncludeStarred = input.GetIncludeStarred()
+	}
+
+	if input.IssuesEnabled != nil {
+		updatedSource.IssuesEnabled = input.GetIssuesEnabled()
 	}
 
 	if input.IncludeWatching != nil {
@@ -576,6 +582,7 @@ func isEmptySourcePatch(input *configv1.UpdateSourcePatch) bool {
 		input.IncludeDefaults == nil &&
 		input.IncludeStarred == nil &&
 		input.IncludeWatching == nil &&
+		input.IssuesEnabled == nil &&
 		input.Name == nil
 }
 

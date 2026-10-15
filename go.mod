@@ -9,10 +9,12 @@ require (
 	connectrpc.com/connect v1.19.1
 	connectrpc.com/validate v0.1.0
 	github.com/go-co-op/gocron/v2 v2.19.1
+	github.com/go-git/go-billy/v5 v5.8.0
 	github.com/go-git/go-git/v5 v5.17.2
 	github.com/google/uuid v1.6.0
 	github.com/spf13/cobra v1.10.2
 	golang.org/x/crypto v0.49.0
+	golang.org/x/sys v0.42.0
 	google.golang.org/protobuf v1.36.11
 	gopkg.in/yaml.v3 v3.0.1
 	modernc.org/sqlite v1.48.1
@@ -29,7 +31,6 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
-	github.com/go-git/go-billy/v5 v5.8.0 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/google/cel-go v0.17.4 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
@@ -48,7 +49,6 @@ require (
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	golang.org/x/exp v0.0.0-20251023183803-a4bb9ffd2546 // indirect
 	golang.org/x/net v0.51.0 // indirect
-	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230530153820-e85fd2cbaebc // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230530153820-e85fd2cbaebc // indirect
