@@ -25,6 +25,7 @@ type Config struct {
 }
 
 type SourceConfig struct {
+	IssuesEnabled    bool     `yaml:"issues_enabled"`
 	ID               string   `yaml:"id"`
 	Name             string   `yaml:"name,omitempty"`
 	Platform         string   `yaml:"platform"`

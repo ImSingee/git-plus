@@ -18,6 +18,8 @@
 
 ![Commit history tracking](images/highlight-3.jpg)
 
+4. Optionally back up GitHub Issues alongside code: independent metadata Git history, safe offline browsing, comments/timeline, and verified snapshot export. Enable it per source; attachments remain links only. See [Issues backup guide](docs/issues-backup.md).
+
 ## Quick start
 
 1. Set a secret used to encrypt tokens:

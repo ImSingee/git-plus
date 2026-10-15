@@ -38,6 +38,7 @@ interface CreateData {
     includeDefaults: boolean;
     includeStarred: boolean;
     includeWatching: boolean;
+    issuesEnabled: boolean;
   };
 }
 
@@ -52,6 +53,7 @@ interface UpdateData {
     includeDefaults: boolean;
     includeStarred: boolean;
     includeWatching: boolean;
+    issuesEnabled: boolean;
   };
 }
 
@@ -73,6 +75,7 @@ interface FormValues {
   includeDefaults: boolean;
   includeStarred: boolean;
   includeWatching: boolean;
+  issuesEnabled: boolean;
 }
 
 export function SourceFormDrawer({
@@ -96,6 +99,7 @@ export function SourceFormDrawer({
       includeDefaults: true,
       includeStarred: false,
       includeWatching: false,
+      issuesEnabled: false,
     },
     validate: {
       username: (value) => (value.trim() ? null : 'Username is required'),
@@ -117,6 +121,7 @@ export function SourceFormDrawer({
         includeDefaults: source.includeDefaults,
         includeStarred: source.includeStarred,
         includeWatching: source.includeWatching,
+        issuesEnabled: source.issuesEnabled,
       });
       form.resetDirty();
       setAdvancedOpen(
@@ -138,6 +143,7 @@ export function SourceFormDrawer({
         includeDefaults: true,
         includeStarred: false,
         includeWatching: false,
+        issuesEnabled: false,
       });
       form.reset();
     }
@@ -161,6 +167,7 @@ export function SourceFormDrawer({
           includeDefaults: values.includeDefaults,
           includeStarred: values.includeStarred,
           includeWatching: values.includeWatching,
+          issuesEnabled: values.issuesEnabled,
         },
       });
     } else {
@@ -175,6 +182,7 @@ export function SourceFormDrawer({
           includeDefaults: values.includeDefaults,
           includeStarred: values.includeStarred,
           includeWatching: values.includeWatching,
+          issuesEnabled: values.issuesEnabled,
         },
       });
     }
@@ -270,6 +278,14 @@ export function SourceFormDrawer({
                 )}
               </Stack>
             </Box>
+          )}
+
+          {platformSelected && (
+            <Switch
+              label="Back up GitHub Issues"
+              description="Opt in to read-only backups of issues, comments, and timeline events for this source. Pull requests are excluded. Attachments are saved as links only."
+              {...form.getInputProps('issuesEnabled', { type: 'checkbox' })}
+            />
           )}
 
           {/* Tier 3: Advanced Options */}

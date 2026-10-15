@@ -14,6 +14,8 @@ import (
 	"github.com/ImSingee/git-plus/pkg/cronservice"
 	"github.com/ImSingee/git-plus/pkg/eventbus"
 	"github.com/ImSingee/git-plus/pkg/eventservice"
+	"github.com/ImSingee/git-plus/pkg/issueservice"
+	"github.com/ImSingee/git-plus/pkg/issuetask"
 	"github.com/ImSingee/git-plus/pkg/reposervice"
 	"github.com/ImSingee/git-plus/pkg/task"
 	"github.com/ImSingee/git-plus/pkg/taskservice"
@@ -49,6 +51,9 @@ func Run(ctx context.Context, cfg Config, frontendHandlerFactory FrontendHandler
 	}
 	defer sqliteDB.Close()
 	taskManager.SetRecorder(taskstore.NewRecorder(sqliteDB))
+	if err := issuetask.New(cfg.DataDir, sqliteDB, taskManager).ResumeInterrupted(ctx); err != nil {
+		log.Printf("resume issue backups: %v", err)
+	}
 
 	cronRuntime, err := newCronRuntime(cfg.DataDir, sqliteDB, taskManager)
 	if err != nil {
@@ -103,6 +108,7 @@ func NewHandler(dataDir string, sqliteDB *sql.DB, taskManager *task.Manager, bus
 	taskServiceOptions = append(taskServiceOptions, taskservice.WithDatabase(sqliteDB))
 	taskservice.RegisterHandlers(apiMux, dataDir, taskManager, taskServiceOptions...)
 	reposervice.RegisterHandlers(apiMux, dataDir, reposervice.WithDatabase(sqliteDB))
+	issueservice.RegisterHandlers(apiMux, dataDir, sqliteDB, taskManager)
 	eventservice.RegisterHandlers(apiMux, bus)
 	mux.Handle("/api/", apiAuthMiddleware(http.StripPrefix("/api", apiMux)))
 	mux.HandleFunc("/api", notFoundAPIHandler)

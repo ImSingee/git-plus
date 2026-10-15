@@ -43,6 +43,7 @@ import {
   IconFileZip,
   IconGitBranch,
   IconHistory,
+  IconMessageCircle,
   IconPackage,
   IconTag,
   IconX,
@@ -69,6 +70,7 @@ import {
   repoRefsQueryOptions,
 } from '~lib/repo-queries';
 import { sourcePrimaryLabel, sourceSecondaryLabel } from '~lib/source-display';
+import { IssuesTab } from '~components/issues/IssuesTab';
 
 export const Route = createFileRoute('/_dashboard/repos/$repoId')({
   loader: ({ context: { queryClient }, params: { repoId } }) =>
@@ -324,6 +326,12 @@ function RepoDetailPage() {
           <Tabs.Tab value="changes" leftSection={<IconHistory size={14} />}>
             Changes
           </Tabs.Tab>
+          <Tabs.Tab
+            value="issues"
+            leftSection={<IconMessageCircle size={14} />}
+          >
+            Issues
+          </Tabs.Tab>
           <Tabs.Tab value="download" leftSection={<IconDownload size={14} />}>
             Download
           </Tabs.Tab>
@@ -368,6 +376,9 @@ function RepoDetailPage() {
               archiveRepoSizeBytes={repo.archiveRepoSizeBytes}
             />
           )}
+        </Tabs.Panel>
+        <Tabs.Panel value="issues" pt="md">
+          {activeTab === 'issues' && <IssuesTab key={repoId} repoId={repoId} />}
         </Tabs.Panel>
       </Tabs>
     </Container>

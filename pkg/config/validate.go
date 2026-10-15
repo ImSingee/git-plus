@@ -146,6 +146,7 @@ var sourceFields = []string{
 	"include_defaults",
 	"include_starred",
 	"include_watching",
+	"issues_enabled",
 }
 
 func validateSourceCollection(sources []SourceConfig, root *yaml.Node, opts SecretOptions) []ValidationIssue {

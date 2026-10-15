@@ -49,23 +49,20 @@ message Source {
   repeated string only_include_repos = 5 [(buf.validate.field).repeated = {
     unique: true
     items: {
-      string: {
-        min_len: 1
-      }
+      string: {min_len: 1}
     }
   }];
   repeated string exclude_repos = 6 [(buf.validate.field).repeated = {
     unique: true
     items: {
-      string: {
-        min_len: 1
-      }
+      string: {min_len: 1}
     }
   }];
   bool include_defaults = 7;
   bool include_starred = 8;
   bool include_watching = 9;
   string name = 10;
+  bool issues_enabled = 11;
 }
 
 message ConfigSnapshot {
@@ -79,9 +76,7 @@ message StringListValue {
   repeated string values = 1 [(buf.validate.field).repeated = {
     unique: true
     items: {
-      string: {
-        min_len: 1
-      }
+      string: {min_len: 1}
     }
   }];
 }
@@ -97,23 +92,20 @@ message CreateSourceInput {
   repeated string only_include_repos = 5 [(buf.validate.field).repeated = {
     unique: true
     items: {
-      string: {
-        min_len: 1
-      }
+      string: {min_len: 1}
     }
   }];
   repeated string exclude_repos = 6 [(buf.validate.field).repeated = {
     unique: true
     items: {
-      string: {
-        min_len: 1
-      }
+      string: {min_len: 1}
     }
   }];
   bool include_defaults = 7;
   bool include_starred = 8;
   bool include_watching = 9;
   string name = 10;
+  bool issues_enabled = 11;
 }
 
 message UpdateSourcePatch {
@@ -129,6 +121,7 @@ message UpdateSourcePatch {
   bool include_starred = 7;
   bool include_watching = 8;
   string name = 9;
+  bool issues_enabled = 10;
 }
 
 message CheckConfigRequest {}

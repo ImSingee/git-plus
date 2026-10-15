@@ -13,6 +13,33 @@ type AppMetum struct {
 	Value string
 }
 
+type IssueSyncState struct {
+	RepoID              int64
+	Status              string
+	LatestCommit        string
+	IssuesSince         string
+	CommentsSince       string
+	LastSuccessfulAt    string
+	LastFullReconcileAt string
+	LastError           string
+	IssueCount          int64
+	CommentCount        int64
+	UpdatedAt           string
+}
+
+type IssuesCurrent struct {
+	RepoID        int64
+	IssueID       string
+	Number        int64
+	Title         string
+	State         string
+	AuthorLogin   string
+	UpdatedAt     string
+	Availability  string
+	LabelsJson    string
+	AssigneesJson string
+}
+
 type Repo struct {
 	ID                   int64
 	SourceID             string

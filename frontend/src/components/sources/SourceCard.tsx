@@ -99,6 +99,14 @@ export function SourceCard({
               {badge.label}
             </Badge>
           ))}
+          <Badge
+            size="xs"
+            variant="light"
+            color={source.issuesEnabled ? 'teal' : 'gray'}
+            fw={500}
+          >
+            Issues {source.issuesEnabled ? 'enabled' : 'off'}
+          </Badge>
           {source.onlyIncludeRepos.slice(0, 2).map((repo) => (
             <Badge
               key={`include-${repo}`}

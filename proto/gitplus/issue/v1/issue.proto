@@ -1,0 +1,98 @@
+edition = "2023";
+
+package gitplus.issue.v1;
+
+import "buf/validate/validate.proto";
+import "gitplus/task/v1/task.proto";
+import "google/protobuf/go_features.proto";
+
+option features.(pb.go).api_level = API_OPEN;
+option features.field_presence = EXPLICIT;
+
+message IssueSummary {
+  string id = 1;
+  int64 number = 2;
+  string title = 3;
+  string state = 4;
+  string author_login = 5;
+  string updated_at = 6;
+  string availability = 7;
+  repeated string labels = 8;
+  repeated string assignees = 9;
+}
+
+message IssueBackupStatus {
+  bool enabled = 1;
+  string state = 2;
+  string last_successful_at = 3;
+  string last_full_reconcile_at = 4;
+  string last_error = 5;
+  string latest_commit = 6;
+  int32 issue_count = 7;
+  int32 comment_count = 8;
+}
+
+message IssueSnapshot {
+  string commit = 1;
+  string created_at = 2;
+  int32 issue_count = 3;
+  int32 comment_count = 4;
+}
+
+message GetStatusRequest {
+  int64 repo_id = 1 [(buf.validate.field).int64.gt = 0];
+}
+message GetStatusResponse {
+  IssueBackupStatus status = 1;
+}
+
+message ListIssuesRequest {
+  int64 repo_id = 1 [(buf.validate.field).int64.gt = 0];
+  int32 page_size = 2;
+  string page_token = 3;
+  string state = 4;
+  string search = 5;
+}
+message ListIssuesResponse {
+  repeated IssueSummary issues = 1;
+  string next_page_token = 2;
+  int32 total_count = 3;
+}
+
+message GetIssueRequest {
+  int64 repo_id = 1 [(buf.validate.field).int64.gt = 0];
+  string issue_id = 2 [(buf.validate.field).string.min_len = 1];
+  string snapshot = 3;
+}
+message GetIssueResponse {
+  IssueSummary issue = 1;
+  string raw_json = 2;
+  string comments_json = 3;
+  string timeline_json = 4;
+  string markdown = 5;
+  string snapshot = 6;
+}
+
+message ListSnapshotsRequest {
+  int64 repo_id = 1 [(buf.validate.field).int64.gt = 0];
+}
+message ListSnapshotsResponse {
+  repeated IssueSnapshot snapshots = 1;
+}
+
+message EnqueueSyncRequest {
+  int64 repo_id = 1 [(buf.validate.field).int64.gt = 0];
+  bool full = 2;
+}
+message EnqueueSyncResponse {
+  gitplus.task.v1.Task task = 1;
+  gitplus.task.v1.TaskEnqueueResult result = 2;
+}
+
+service IssueService {
+  rpc GetStatus(GetStatusRequest) returns (GetStatusResponse);
+  rpc ListIssues(ListIssuesRequest) returns (ListIssuesResponse);
+  rpc GetIssue(GetIssueRequest) returns (GetIssueResponse);
+  rpc ListSnapshots(ListSnapshotsRequest) returns (ListSnapshotsResponse);
+  rpc EnqueueSync(EnqueueSyncRequest) returns (EnqueueSyncResponse);
+}
